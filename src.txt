@@ -1,24 +1,35 @@
 class Solution {
-    
-    private int minDiff = Integer.MAX_VALUE;
-    
+    int minDiff = Integer.MAX_VALUE;
+
     public void inOrder(TreeNode root, TreeNode[] prev) {
-        if (root == null) return;
-        
-        inOrder(root.left, prev);
-        
-        if (prev[0] != null) {
-            minDiff = Math.min(minDiff, root.val - prev[0].val);
+        if (root == null) {
+            return;
         }
-        
-        prev[0] = root;
-        
-        inOrder(root.right, prev);
+
+        inOrder(root.left, prev);  // Visit left child
+
+        if (prev[0] != null) {
+            minDiff = Math.min(minDiff, root.val - prev[0].val);  // Calculate the difference
+        }
+
+        prev[0] = root;  // Update prev to the current node
+
+        inOrder(root.right, prev);  // Visit right child
     }
-    
+
     public int getMinimumDifference(TreeNode root) {
-        TreeNode[] prev = new TreeNode[1]; // acts like a reference
+        TreeNode[] prev = new TreeNode[1];  // prev is now an array to allow passing by reference
         inOrder(root, prev);
         return minDiff;
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int val) {
+        this.val = val;
     }
 }
